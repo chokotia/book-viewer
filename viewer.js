@@ -435,15 +435,6 @@ async function handleAddBook() {
     return;
   }
 
-  const bookId = dirHandle.name;
-
-  // Check for duplicate
-  const existing = await idbGet('books', bookId);
-  if (existing) {
-    showError(`「${bookId}」は既に登録されています。削除してから追加してください。`);
-    return;
-  }
-
   // Read and parse book.json
   let meta;
   try {
@@ -461,12 +452,25 @@ async function handleAddBook() {
   }
 
   // Validate required fields
+  if (!meta.id || typeof meta.id !== 'string' || meta.id.trim() === '') {
+    showError('book.json に "id" フィールド（文字列）が必要です。');
+    return;
+  }
   if (!meta.title || typeof meta.title !== 'string' || meta.title.trim() === '') {
     showError('book.json に "title" フィールド（文字列）が必要です。');
     return;
   }
   if (meta.direction !== 'rtl' && meta.direction !== 'ltr') {
     showError('book.json の "direction" は "rtl" または "ltr" を指定してください。');
+    return;
+  }
+
+  const bookId = meta.id.trim();
+
+  // Check for duplicate
+  const existing = await idbGet('books', bookId);
+  if (existing) {
+    showError(`「${bookId}」は既に登録されています。削除してから追加してください。`);
     return;
   }
 
