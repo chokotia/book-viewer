@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Viewer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="view-library">
+
+  <!-- ライブラリビュー -->
+  <div id="library-view">
+    <header class="library-header">
+      <h1>Book Viewer</h1>
+      <button id="btn-add-book">+ 本を追加</button>
+    </header>
+    <main id="book-grid"></main>
+
+    <!-- アップロード進捗 -->
+    <div id="upload-progress" class="hidden">
+      読み込み中... <span id="progress-current">0</span> / <span id="progress-total">0</span>
+    </div>
+
+    <!-- エラーダイアログ -->
+    <div id="upload-error-dialog" class="modal hidden">
+      <div class="modal-box">
+        <h2>エラー</h2>
+        <p id="upload-error-message"></p>
+        <button id="btn-error-close">閉じる</button>
+      </div>
+    </div>
+
+    <!-- 本削除確認ダイアログ -->
+    <div id="delete-confirm-dialog" class="modal hidden">
+      <div class="modal-box">
+        <h2>削除の確認</h2>
+        <p id="delete-confirm-message"></p>
+        <div class="modal-actions">
+          <button id="btn-delete-cancel">キャンセル</button>
+          <button id="btn-delete-confirm" class="btn-danger">削除</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- リーダービュー -->
+  <div id="reader-view">
+    <header class="reader-header">
+      <button id="btn-back-library">← ライブラリ</button>
+      <span id="reader-title"></span>
+      <span id="reader-page-info"></span>
+    </header>
+    <main id="spread-container">
+      <div class="page-slot" id="slot-left">
+        <img id="page-left" alt="left page">
+      </div>
+      <div class="page-slot" id="slot-right">
+        <img id="page-right" alt="right page">
+      </div>
+    </main>
+  </div>
+
+  <!-- Ctrl+G ジャンプダイアログ -->
+  <div id="jump-dialog" class="modal hidden">
+    <div class="modal-box">
+      <h2>ページジャンプ</h2>
+      <label>
+        ページ番号 (<span id="jump-range"></span>):
+        <input id="jump-input" type="number" min="1">
+      </label>
+      <div class="modal-actions">
+        <button id="btn-jump-cancel">キャンセル</button>
+        <button id="btn-jump-confirm" class="btn-primary">ジャンプ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ? キー ショートカット一覧ダイアログ -->
+  <div id="help-dialog" class="modal hidden">
+    <div class="modal-box">
+      <h2>キーボード操作</h2>
+      <table id="help-table">
+        <tbody>
+          <tr><td>←</td><td>RTL: 次スプレッド（読み進める） / LTR: 前スプレッド</td></tr>
+          <tr><td>→</td><td>RTL: 前スプレッド / LTR: 次スプレッド（読み進める）</td></tr>
+          <tr><td>Ctrl+G</td><td>ページジャンプダイアログを開く</td></tr>
+          <tr><td>Escape</td><td>ダイアログを閉じる（キャンセル）</td></tr>
+          <tr><td>Enter（ダイアログ内）</td><td>ジャンプ確定</td></tr>
+          <tr><td>Ctrl+←</td><td>ジャンプ履歴を1つ前へ</td></tr>
+          <tr><td>Ctrl+→</td><td>ジャンプ履歴を1つ先へ</td></tr>
+          <tr><td>?</td><td>このヘルプを表示</td></tr>
+        </tbody>
+      </table>
+      <button id="btn-help-close">閉じる</button>
+    </div>
+  </div>
+
+  <script src="viewer.js"></script>
+</body>
+</html>
